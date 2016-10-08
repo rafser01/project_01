@@ -1,0 +1,111 @@
+<div class="btn-group" ng-show="isLoggedIn()">
+    <div class="col-md-12">
+        <a ng-click="logout()" class="btn btn-large btn-default">
+            <i class="fa fa-book"></i>
+            Logout
+        </a>
+    </div>
+    <div class="list-group" ng-controller="DisplayCtrl as display">
+        <div class="col-md-12 list-group-item" ng-repeat="stock in display.stocks" > 
+            <h3>{{stock.name}}  <em class="pull-right" style="font-size: 12px">Price - &#2547; {{stock.price}}</em></h3>
+            <section>
+                <ul class="nav nav-pills">
+                    <li ng-class="display.isDescriptionTab(stock.stockId)"><a href ng-click="display.setDescription(stock.stockId)" >Description</a></li>
+                    <li ng-class="display.isReviewTab(stock.stockId)"><a href ng-click="display.setReviewTab(stock.stockId)" >Reviews</a></li>
+
+
+                </ul>
+                <div ng-show="display.isDescriptionTab(stock.stockId)"    >
+                    <h4>Description</h4>
+                    <!--Other descrition element will be show here -->
+                     
+                    <table  class="table-responsive table-hover col-md-12" style="padding: 5px">
+                        <thead>
+                        <tr>
+                            <th>Type</th>
+                            <th>Recent Price</th>
+                            <th>High Price</th>
+                            <th>Low Price</th>
+                            <th>Bonus Cash</th>
+                            <th>Bonus Share</th>
+                            <th>Bonus Right</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td>Price</td>
+                            <td>{{stock.price}}</td>
+                            <td>{{stock.highPrice}}</td>
+                            <td>{{stock.lowPrice}}</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>Bonus</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td>{{stock.bonusCash}}</td>
+                            <td>{{stock.bonusShare}}</td>
+                            <td>{{stock.rightShare}}</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    
+                </div>
+                <div ng-show="display.isReviewTab(stock.stockId)" >
+
+                    <ul class="list-unstyled">
+                        <h4>Reviews</h4>
+                        <li ng-repeat="review in display.reviews" >
+                            <blockquote>
+                                <strong>{{review.rating}} Stars</strong><br>
+                                {{review.description}}<br>
+                                <cite class="clearfix">—{{review.title}} </cite>
+                            </blockquote>
+                        </li>
+                    </ul>
+                    <!--  Review Form -->
+                    <form name="reviewForm"   ng-submit="display.addReview()">
+
+                        Live Preview 
+                        <blockquote >
+                            <strong>{{display.review.rating}} Stars</strong><br>
+                            {{display.review.title}} <br>
+                            <cite>— {{display.review.description}}</cite>
+                        </blockquote>
+
+                        Review Form 
+                        <h4>Submit a Review</h4>
+                        
+                        <fieldset class="form-group">
+                            <select ng-model="display.review.rating" class="form-control" ng-options="ratings.rating for ratings in [5,4,3,2,1] "  title="rating">
+                                <option value>Rate the Stock</option>
+                            </select>
+                        </fieldset>
+                        <fieldset class="form-group">
+                            <textarea ng-model="display.review.description" class="form-control" placeholder="Write a short review of the stock..." title="Review"></textarea>
+                        </fieldset>
+                        <fieldset class="form-group">
+                            <input ng-model="display.review.title" type="text" class="form-control"  title="title of the review" />
+                        </fieldset>
+                        <fieldset class="form-group">
+                            <input type="submit" class="btn btn-primary pull-right" value="Submit Review" />
+                        </fieldset>
+                    </form>
+                </div>
+            </section>
+        </div>
+    </div>
+
+
+</div>
+<div class="btn-group" ng-hide="isLoggedIn()">
+    <a ui-sref="login" class="btn btn-large btn-default">
+        <i class="fa fa-thumbs-up"></i>
+        Login
+    </a>
+</div>
+
+
